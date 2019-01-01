@@ -18,7 +18,6 @@ class Swap {
     this.participantSwap        = null
     this.destinationBuyAddress  = null
     this.destinationSellAddress = null
-    this.etheriumFee            = null
 
     let data = SwapApp.env.storage.getItem(`swap.${id}`)
 
@@ -39,11 +38,6 @@ class Swap {
 
     this.ownerSwap        = SwapApp.swaps[data.buyCurrency.toUpperCase()]
     this.participantSwap  = SwapApp.swaps[data.sellCurrency.toUpperCase()]
-
-    SwapApp.env.web3.eth.getGasPrice((err, _gasPrice) => {
-      const newGas = new BigNumber(String(_gasPrice)).plus(new BigNumber(String(1300000000)))
-      this.etheriumFee = newGas * 2e5 * (1e-18)
-    })
 
     const Flow = SwapApp.flows[`${data.sellCurrency.toUpperCase()}2${data.buyCurrency.toUpperCase()}`]
 
